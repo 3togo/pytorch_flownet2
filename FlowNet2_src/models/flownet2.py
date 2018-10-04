@@ -55,13 +55,13 @@ class FlowNet2(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
             if isinstance(m, nn.ConvTranspose2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
     def forward(self, inputs):
         rgb_mean = inputs.contiguous().view(inputs.size()[:2] + (-1, )).mean(
@@ -240,13 +240,13 @@ class FlowNet2CS(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
             if isinstance(m, nn.ConvTranspose2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
     def forward(self, inputs):
         rgb_mean = inputs.contiguous().view(inputs.size()[:2] + (-1, )).mean(
@@ -313,13 +313,13 @@ class FlowNet2CSS(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
             if isinstance(m, nn.ConvTranspose2d):
                 if m.bias is not None:
-                    nn_init.uniform(m.bias)
-                nn_init.xavier_uniform(m.weight)
+                    nn_init.uniform_(m.bias)
+                nn_init.xavier_uniform_(m.weight)
 
     def forward(self, inputs):
         rgb_mean = inputs.contiguous().view(inputs.size()[:2] + (-1, )).mean(

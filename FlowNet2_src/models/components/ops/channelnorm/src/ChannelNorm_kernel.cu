@@ -82,12 +82,19 @@ __global__ void kernel_ChannelNorm_backward_input1(const int n, const float* inp
 
 void ChannelNorm_kernel_forward(THCState* state, THCudaTensor* input1, THCudaTensor* output, int norm_deg) {
     int n = 0;
-    
-    const long4 input1_size = make_long4(input1->size[0], input1->size[1], input1->size[2], input1->size[3]);
-    const long4 input1_stride = make_long4(input1->stride[0], input1->stride[1], input1->stride[2], input1->stride[3]);
+    //const long4 input1_size = make_long4(input1->size[0], input1->size[1], input1->size[2], input1->size[3]);
+    const long4 input1_size = make_long4(THCudaTensor_size(state, input1, 0), THCudaTensor_size(state, input1, 1),
+                                        THCudaTensor_size(state, input1, 2),THCudaTensor_size(state, input1, 3));
+    const long4 input1_stride = make_long4(THCudaTensor_stride(state, input1, 0), THCudaTensor_stride(state, input1, 1),
+                                        THCudaTensor_stride(state, input1, 2),THCudaTensor_stride(state, input1, 3));
+    //const long4 input1_stride = make_long4(input1->stride[0], input1->stride[1], input1->stride[2], input1->stride[3]);
 
-    const long4 output_size = make_long4(output->size[0], output->size[1], output->size[2], output->size[3]);
-    const long4 output_stride = make_long4(output->stride[0], output->stride[1], output->stride[2], output->stride[3]);
+    //const long4 output_size = make_long4(output->size[0], output->size[1], output->size[2], output->size[3]);
+    const long4 output_size = make_long4(THCudaTensor_size(state, output, 0), THCudaTensor_size(state, output, 1),
+                                        THCudaTensor_size(state, output, 2),THCudaTensor_size(state, output, 3));
+    const long4 output_stride = make_long4(THCudaTensor_stride(state, output, 0), THCudaTensor_stride(state, output, 1),
+                                        THCudaTensor_stride(state, output, 2),THCudaTensor_stride(state, output, 3));
+    //const long4 output_stride = make_long4(output->stride[0], output->stride[1], output->stride[2], output->stride[3]);
 
     n = THCudaTensor_nElement(state, output);
     kernel_ChannelNorm_updateOutput<<< (n + CUDA_NUM_THREADS - 1)/CUDA_NUM_THREADS, CUDA_NUM_THREADS, 0, THCState_getCurrentStream(state) >>>(
@@ -100,17 +107,33 @@ void ChannelNorm_kernel_forward(THCState* state, THCudaTensor* input1, THCudaTen
 void ChannelNorm_kernel_backward(THCState* state, THCudaTensor* input1, THCudaTensor* output, THCudaTensor* gradOutput, THCudaTensor* gradInput1, int norm_deg) {
     int n = 0;
 
-    const long4 input1_size = make_long4(input1->size[0], input1->size[1], input1->size[2], input1->size[3]);
-    const long4 input1_stride = make_long4(input1->stride[0], input1->stride[1], input1->stride[2], input1->stride[3]);
+    //const long4 input1_size = make_long4(input1->size[0], input1->size[1], input1->size[2], input1->size[3]);
+    const long4 input1_size = make_long4(THCudaTensor_size(state, input1, 0), THCudaTensor_size(state, input1, 1),
+                                        THCudaTensor_size(state, input1, 2),THCudaTensor_size(state, input1, 3));
+    const long4 input1_stride = make_long4(THCudaTensor_stride(state, input1, 0), THCudaTensor_stride(state, input1, 1),
+                                        THCudaTensor_stride(state, input1, 2),THCudaTensor_stride(state, input1, 3));
+    //const long4 input1_stride = make_long4(input1->stride[0], input1->stride[1], input1->stride[2], input1->stride[3]);
 
-    const long4 output_size = make_long4(output->size[0], output->size[1], output->size[2], output->size[3]);
-    const long4 output_stride = make_long4(output->stride[0], output->stride[1], output->stride[2], output->stride[3]);
+    //const long4 output_size = make_long4(output->size[0], output->size[1], output->size[2], output->size[3]);
+    const long4 output_size = make_long4(THCudaTensor_size(state, output, 0), THCudaTensor_size(state, output, 1),
+                                        THCudaTensor_size(state, output, 2),THCudaTensor_size(state, output, 3));
+    const long4 output_stride = make_long4(THCudaTensor_stride(state, output, 0), THCudaTensor_stride(state, output, 1),
+                                        THCudaTensor_stride(state, output, 2),THCudaTensor_stride(state, output, 3)); 
+    //const long4 output_stride = make_long4(output->stride[0], output->stride[1], output->stride[2], output->stride[3]);
 
-    const long4 gradOutput_size = make_long4(gradOutput->size[0], gradOutput->size[1], gradOutput->size[2], gradOutput->size[3]);
-    const long4 gradOutput_stride = make_long4(gradOutput->stride[0], gradOutput->stride[1], gradOutput->stride[2], gradOutput->stride[3]);
+    //const long4 gradOutput_size = make_long4(gradOutput->size[0], gradOutput->size[1], gradOutput->size[2], gradOutput->size[3]);
+    const long4 gradOutput_size = make_long4(THCudaTensor_size(state, gradOutput, 0), THCudaTensor_size(state, gradOutput, 1),
+                                        THCudaTensor_size(state, gradOutput, 2),THCudaTensor_size(state, gradOutput, 3));
+    const long4 gradOutput_stride = make_long4(THCudaTensor_stride(state, gradOutput, 0), THCudaTensor_stride(state, gradOutput, 1),
+                                        THCudaTensor_stride(state, gradOutput, 2),THCudaTensor_stride(state, gradOutput, 3));
+    //const long4 gradOutput_stride = make_long4(gradOutput->stride[0], gradOutput->stride[1], gradOutput->stride[2], gradOutput->stride[3]);
 
-    const long4 gradInput1_size = make_long4(gradInput1->size[0], gradInput1->size[1], gradInput1->size[2], gradInput1->size[3]);
-    const long4 gradInput1_stride = make_long4(gradInput1->stride[0], gradInput1->stride[1], gradInput1->stride[2], gradInput1->stride[3]);
+    //const long4 gradInput1_size = make_long4(gradInput1->size[0], gradInput1->size[1], gradInput1->size[2], gradInput1->size[3]);
+    const long4 gradInput1_size = make_long4(THCudaTensor_size(state, gradInput1, 0), THCudaTensor_size(state, gradInput1, 1),
+                                        THCudaTensor_size(state, gradInput1, 2),THCudaTensor_size(state, gradInput1, 3));
+    const long4 gradInput1_stride = make_long4(THCudaTensor_stride(state, gradInput1, 0), THCudaTensor_stride(state, gradInput1, 1),
+                                        THCudaTensor_stride(state, gradInput1, 2),THCudaTensor_stride(state, gradInput1, 3));
+    //const long4 gradInput1_stride = make_long4(gradInput1->stride[0], gradInput1->stride[1], gradInput1->stride[2], gradInput1->stride[3]);
 
     n = THCudaTensor_nElement(state, gradInput1);
     kernel_ChannelNorm_backward_input1<<< (n + CUDA_NUM_THREADS - 1)/CUDA_NUM_THREADS, CUDA_NUM_THREADS, 0, THCState_getCurrentStream(state) >>>(
