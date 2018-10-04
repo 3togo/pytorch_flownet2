@@ -17,10 +17,16 @@ int Correlation_forward_cuda(THCudaTensor *input1, THCudaTensor *input2, THCudaT
                        int corr_type_multiply)
 {
 
-  int batchSize = input1->size[0];
-  int nInputChannels = input1->size[1];
-  int inputHeight = input1->size[2];
-  int inputWidth = input1->size[3];
+  //int batchSize = input1->size[0];
+  //int nInputChannels = input1->size[1];
+  //int inputHeight = input1->size[2];
+  //int inputWidth = input1->size[3];
+  
+  int batchSize = THCudaTensor_size(state, input1, 0);
+  int nInputChannels = THCudaTensor_size(state, input1, 1);
+  int inputWidth = THCudaTensor_size(state, input1, 2);
+  int inputHeight = THCudaTensor_size(state, input1, 3);
+
 
   int kernel_radius = (kernel_size - 1) / 2;
   int border_radius = kernel_radius + max_displacement;
@@ -102,13 +108,20 @@ int Correlation_backward_cuda(THCudaTensor *input1, THCudaTensor *input2, THCuda
                        int corr_type_multiply)
 {
 
-  int batchSize = input1->size[0];
-  int nInputChannels = input1->size[1];
-  int paddedInputHeight = input1->size[2]+ 2 * pad_size;
-  int paddedInputWidth = input1->size[3]+ 2 * pad_size;
+  int batchSize = THCudaTensor_size(state, input1, 0);
+  int nInputChannels = THCudaTensor_size(state, input1, 1);
+  int paddedInputHeight = THCudaTensor_size(state, input1, 2)+ 2 * pad_size;
+  int paddedInputWidth = THCudaTensor_size(state, input1, 3)+ 2 * pad_size;
+  int height = THCudaTensor_size(state, input1, 2);
+  int width = THCudaTensor_size(state, input1, 3);
 
-  int height = input1->size[2];
-  int width = input1->size[3];
+
+  //int batchSize = input1->size[0];
+  //int nInputChannels = input1->size[1];
+  //int paddedInputHeight = input1->size[2]+ 2 * pad_size;
+  //int paddedInputWidth = input1->size[3]+ 2 * pad_size;
+  //int height = input1->size[2];
+  //int width = input1->size[3];
 
   THCudaTensor_resize4d(state, rInput1, batchSize, paddedInputHeight, paddedInputWidth, nInputChannels);
   THCudaTensor_resize4d(state, rInput2, batchSize, paddedInputHeight, paddedInputWidth, nInputChannels);
