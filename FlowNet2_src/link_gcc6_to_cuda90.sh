@@ -1,8 +1,8 @@
-CUDA_HOME=/usr/local/cuda-9.0
-cc_=$CUDA_HOME/bin/gcc
-cxx__=$CUDA_HOME/bin/g++
-cc=/usr/bin/gcc-6
-cxx=/usr/bin/g++-6
+export CUDA_HOME=/usr/local/cuda-9.0
+export cc_=$CUDA_HOME/bin/gcc
+export cxx_=$CUDA_HOME/bin/g++
+export cc=/usr/bin/gcc-6
+export cxx=/usr/bin/g++-6
 
 if [ ! -f $cc ]; then 
 	sudo apt install gcc-6
