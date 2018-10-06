@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
+  print("Torch Version is:%s"%torch.__version__)
   # Prepare img pair
   im1 = imread('FlowNet2_src/example/0img0.ppm')
   im2 = imread('FlowNet2_src/example/0img1.ppm')
