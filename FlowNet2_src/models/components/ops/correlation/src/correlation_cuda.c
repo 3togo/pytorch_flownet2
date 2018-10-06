@@ -24,8 +24,8 @@ int Correlation_forward_cuda(THCudaTensor *input1, THCudaTensor *input2, THCudaT
   
   int batchSize = THCudaTensor_size(state, input1, 0);
   int nInputChannels = THCudaTensor_size(state, input1, 1);
-  int inputWidth = THCudaTensor_size(state, input1, 2);
-  int inputHeight = THCudaTensor_size(state, input1, 3);
+  int inputHeight = THCudaTensor_size(state, input1, 2);
+  int inputWidth = THCudaTensor_size(state, input1, 3);
 
 
   int kernel_radius = (kernel_size - 1) / 2;
